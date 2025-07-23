@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="zh">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +13,7 @@
             document.addEventListener("alpine:init", () => {
                 Alpine.data("tagApp", () => ({
                     newTag: "",
-                    tags: {},
+                    tags: [],
                     addTag() {
                         this.newTag.trim() &&
                             (this.sendTag(this.newTag.trim()),
@@ -38,33 +38,58 @@
     <body x-data="tagApp" x-init="tags = {{tags|tojson}}">
         <main class="container">
             <h1>{{name}}</h1>
+            <div class="grid">
+                <div>
+                    <p x-show="false"><span aria-busy="true">加载中……</span></p>
 
-            <p x-show="false"><span aria-busy="true">加载中……</span></p>
+                    <article>
+                        <template x-for="[tag, count] in tags" :key="tag">
+                            <span style="margin-right: 0.5rem">
+                                <a
+                                    class="secondary"
+                                    x-text="tag"
+                                    @click="sendTag(tag)"
+                                ></a
+                                ><sup x-text="count"></sup>
+                            </span>
+                        </template>
+                    </article>
 
-            <p>
-                <template x-for="[tag, count] in tags" :key="tag">
-                    <span style="margin-right: 0.5rem">
-                        <a
-                            @click="sendTag(tag)"
-                            class="secondary"
-                            x-text="tag"
-                        ></a
-                        ><sup x-text="count"></sup>
-                    </span>
-                </template>
-            </p>
-
-            <form @submit.prevent="addTag">
-                <fieldset role="group">
-                    <input
-                        type="text"
-                        x-model="newTag"
-                        placeholder="输入新标签"
-                        aria-label="New tag"
-                    />
-                    <input type="submit" value="添加标签" />
-                </fieldset>
-            </form>
+                    <form @submit.prevent="addTag">
+                        <fieldset role="group">
+                            <input
+                                type="text"
+                                x-model="newTag"
+                                placeholder="输入新标签"
+                                aria-label="New tag"
+                            />
+                            <input type="submit" value="添加标签" />
+                        </fieldset>
+                    </form>
+                </div>
+                <div>
+                    <article>
+                        <header>提示</header>
+                        <ul>
+                            <li>
+                                这个
+                                <a
+                                    href="https://github.com/KemiAmu/tag-me"
+                                    class="contrast"
+                                    target="_blank"
+                                    >网页应用</a
+                                >
+                                是
+                                <a href="Kemi" class="contrast">凯米</a>
+                                做的玩具也许过两天就会关掉
+                            </li>
+                            <li>地址最后一项是名字能改</li>
+                            <li>懒得做限制所以可能刷票</li>
+                            <li>请友善发言</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
         </main>
     </body>
 </html>
