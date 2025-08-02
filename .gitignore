@@ -1,2 +1,6 @@
 /target
 /data
+/data.sled
+/root
+/tests
+/config.toml
